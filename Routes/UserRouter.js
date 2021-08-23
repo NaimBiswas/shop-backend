@@ -1,6 +1,6 @@
 const Router = require('express').Router()
 const userModel = require('../Models/userModel')
-
+const bcrypt = require('bcryptjs');
 
 Router.post('/registration', function (req, res) {
    const { name, email, password, confirmPassword } = req.body
@@ -54,7 +54,52 @@ Router.post('/registration', function (req, res) {
 
 
 Router.post('/login', function (req, res) {
-   res.send('POST request to the homepage')
+   const { email, password } = req.body
+
+   if (email && password) {
+
+      userModel.findOne({ email: email }, (err, data) => {
+         if (data.length === 0) {
+            res.status(400).json({
+               message: "No user exits with this mail and password",
+               succ: false,
+               email: email
+            })
+         } else {
+            bcrypt.compare(password, data.password).then((result) => {
+
+               if (result) {
+                  res.status(401).json({
+                     message: "Login Success",
+                     succ: true,
+                     data: data
+                  })
+               } else {
+                  res.status(401).json({
+                     message: "Invalid Credentials",
+                     succ: false,
+                     messageTwo: "Login Failed"
+                  })
+               }
+            }).catch((err) => {
+               res.status(500).json({
+                  message: "Something went wrong",
+                  succ: false,
+                  error: err
+               })
+            })
+
+
+         }
+      })
+
+   } else {
+      res.status(401).json({
+         message: "Invalid Credentials",
+         succ: false,
+         messageTwo: "Fill all the fields & try again"
+      })
+   }
 })
 
 
