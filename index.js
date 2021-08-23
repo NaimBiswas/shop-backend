@@ -25,7 +25,7 @@ app.get('/', (req, res) => res.send('Shop App!'))
 
 
 
-const port = 3001
+const port = process.env.PORT || 3001
 app.listen(port, () => {
    console.log(`Example app listening on port port!`)
    dbCon
