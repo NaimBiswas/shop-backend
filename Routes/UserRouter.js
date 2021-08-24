@@ -61,7 +61,7 @@ Router.post('/login', function (req, res) {
    if (email && password) {
 
       userModel.findOne({ email: email }, (err, data) => {
-         if (data) {
+         if (!data) {
             res.status(400).json({
                message: "No user exits with this mail and password",
                succ: false,
