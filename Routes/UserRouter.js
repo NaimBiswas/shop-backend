@@ -7,7 +7,9 @@ Router.post('/registration', function (req, res) {
    if (name && email && password && confirmPassword) {
       if (password === confirmPassword) {
          userModel.findOne({ email: email }, (err, data) => {
-            if (data.length === 0) {
+
+            if (!data) {
+
                const newUser = new userModel({
                   name: name,
                   email: email,
@@ -59,7 +61,7 @@ Router.post('/login', function (req, res) {
    if (email && password) {
 
       userModel.findOne({ email: email }, (err, data) => {
-         if (data.length === 0) {
+         if (data) {
             res.status(400).json({
                message: "No user exits with this mail and password",
                succ: false,
