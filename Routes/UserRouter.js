@@ -90,8 +90,6 @@ Router.post('/login', function (req, res) {
                   error: err
                })
             })
-
-
          }
       })
 
@@ -105,7 +103,25 @@ Router.post('/login', function (req, res) {
 })
 
 
-
+// user data 
+Router.post('/profile', function (req, res) {
+   const id = req.headers['id']
+   userModel.findById(id, (err, data) => {
+      if (err) {
+         res.status(503).json({
+            message: "User Profile Data",
+            data: err,
+            succ: false
+         })
+      } else {
+         res.status(200).json({
+            message: "User Profile Data",
+            data: data,
+            succ: true,
+         })
+      }
+   })
+})
 
 
 module.exports = Router
