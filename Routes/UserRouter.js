@@ -104,7 +104,7 @@ Router.post('/login', function (req, res) {
 
 
 // user data 
-Router.post('/profile', function (req, res) {
+Router.get('/profile', function (req, res) {
    const id = req.headers['id']
    userModel.findById(id, (err, data) => {
       if (err) {
