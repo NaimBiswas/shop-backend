@@ -25,6 +25,11 @@ Router.post('/add-product', function (req, res) {
             error: err,
          })
       })
+   } else {
+      res.status(400).json({
+         message: "Send user id by headers",
+         succ: false,
+      })
    }
 
 })
