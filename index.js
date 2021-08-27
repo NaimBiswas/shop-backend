@@ -8,6 +8,7 @@ const dbCon = require("./db/dbCon")
 
 
 
+const ProductRouter = require('./Routes/ProductRouter')
 const UserRouter = require('./Routes/UserRouter')
 
 
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
+app.use('/api', ProductRouter)
 app.use('/api', UserRouter)
 
 app.get('/', (req, res) => res.send('Shop App!'))
