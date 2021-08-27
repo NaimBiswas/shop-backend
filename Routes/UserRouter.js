@@ -1,7 +1,7 @@
 const Router = require('express').Router()
 const userModel = require('../Models/userModel')
 const bcrypt = require('bcryptjs');
-
+const productModel = require('../Models/productModel')
 Router.post('/registration', function (req, res) {
    const { name, email, password, confirmPassword } = req.body
    if (name && email && password && confirmPassword) {
@@ -114,11 +114,23 @@ Router.get('/profile', function (req, res) {
             succ: false
          })
       } else {
-         res.status(200).json({
-            message: "User Profile Data",
-            data: data,
-            succ: true,
+         productModel.find({ userId: id }, (err, productData) => {
+            if (err) {
+               res.status(503).json({
+                  message: "User Profile Data",
+                  data: err,
+                  succ: false
+               })
+            } else {
+               res.status(200).json({
+                  message: "User Profile Data",
+                  data: data,
+                  product: productData,
+                  succ: true,
+               })
+            }
          })
+
       }
    })
 })
